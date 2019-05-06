@@ -15,10 +15,12 @@
     JVM世界观：java对象在jvm里生老病死。（ 从创建-->销毁 ）
     
 ## JVM 发展史 
-	  可以通过java -version来查看当前jdk中使用的jvm版本
-		
-		
+	可以通过java -version来查看当前jdk中使用的jvm版本
+	HotSpot VM:热代码追踪款
+	
 	
 
-#JVM基本原理
-#
+## JVM基本原理
+
+
+
