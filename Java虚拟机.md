@@ -17,10 +17,25 @@ C语言源代码(.c) ---> 编译(.h)
 ## JVM 发展史 
   可以通过java -version来查看当前jdk中使用的jvm版本
   HotSpot VM:热代码追踪款
+  历史经典版本：classic extact
 	
+classic 
+
+extact
+  基于句柄的查找，准确式内存管理
 	
+hotspot
+  热代码探测技术
+  01
+  
+  02
 
 ## JVM基本原理
-
+  # JVM运行时内存区域
+    JVM内存区域从线程安全的角度可以分为：共享区域和线程隔离区域。
+    JVM内存区域从具体的空间划分角度上可以分为：栈内存、堆内存，程序寄存器、方法区（在jdk1。8开始叫做Metaspace）,
+其中栈内存可细分为：本地方法栈内存，虚拟机栈；堆内存可分为：新生代和老年代，其中新生代又分为Eden伊甸区，From Survivor,To Survivor幸存区。
+    
+    #
 
 
