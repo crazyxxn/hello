@@ -75,35 +75,34 @@
 
 ```
 public class ConstantPool {
-
     public static void main(String[] args) {
         /*
             String str1=new String("hello");创建了几个对象？
             2
          */
-        String str1 = new String("hello");
+            String str1 = new String("hello");
 
-        String str2 = new String("hello");
-        /**
-         * ==的比较
-         *  如果两侧是基本数据类型，比较的实际的值
-         *  如果两侧是引用型数据类型，比较的是内存地址值
-         * eqauls()，该方法是Object中的一个方法
-         *  默认比较也是内存地址值
-         *  在String类中equals比较的两个字符串的值是否相等
-         *
-         * str1.toString()==str2.toString() <=> str1 == str2
-         * public String toString() {
+            String str2 = new String("hello");
+            /**
+             * ==的比较
+             *  如果两侧是基本数据类型，比较的实际的值
+             *  如果两侧是引用型数据类型，比较的是内存地址值
+             * eqauls()，该方法是Object中的一个方法
+             *  默认比较也是内存地址值
+             *  在String类中equals比较的两个字符串的值是否相等
+             *
+             * str1.toString()==str2.toString() <=> str1 == str2
+             * public String toString() {
              return this;
-           }
-         */
-        System.out.println(str1==str2);//true --->周攀 
-        System.out.println(str1.equals(str2));//false 俞剑波
-        System.out.println(str1.toString()==str2.toString());//true 李红伟
-        String str3="hello";
-        String str4="hello";
+             }
+             */
+            System.out.println(str1==str2);//f
+            System.out.println(str1.equals(str2));//t
+            System.out.println(str1.toString()==str2.toString());//f
+            String str3="hello";
+            String str4="hello";
 
-        System.out.println(str3 == str4);
+            System.out.println(str3 == str4);//t
         /*
             装箱和拆箱
             装箱，就是将java基本数据类型转化为对象的操作
@@ -114,21 +113,22 @@ public class ConstantPool {
             int a = i.intValue();//拆箱
             int a = new Integer(3);//自动拆箱
          */
-        System.out.println(new Integer(1) == new Integer(1));//true --俞剑波
-        int a = new Integer(127);
-        int b = new Integer(127);
-        //此时a和b都是基本数据类型，比较的是值
-        System.out.println("a==b?" + (a == b));//攀哥--true
-        /**
-         * jvm有一个数字优化的技术，会将一个byte范围内[-128, 127]之间的数据的创建交给方法区
-         */
-        Integer c = 127;
-        Integer d = 127;
-        System.out.println("c==d?" + (c == d));//false
-        Integer e = 128;//这里面有一个自动装箱new Integer(128)
-        Integer f = 128;//这里面有一个自动装箱new Integer(128)
-        System.out.println("e==f?" + (e == f));//false
+            System.out.println(new Integer(1) == new Integer(1));//f
+            int a = new Integer(127);
+            int b = new Integer(127);
+            //此时a和b都是基本数据类型，比较的是值
+            System.out.println("a==b?" + (a == b));//t
+            /**
+             * jvm有一个数字优化的技术，会将一个byte范围内[-128, 127]之间的数据的创建交给方法区
+             */
+            Integer c = 127;
+            Integer d = 127;
+            System.out.println("c==d?" + (c == d));//t
+            Integer e = 128;//这里面有一个自动装箱new Integer(128)
+            Integer f = 128;//这里面有一个自动装箱new Integer(128)
+            System.out.println("e==f?" + (e == f));//f
     }
+   
 }
 ```
 
