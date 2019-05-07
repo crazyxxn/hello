@@ -144,7 +144,98 @@ java虚拟机栈\本地方法栈区域
 方法区
 当方法区无法满足内存分配需求时，将抛出OutOfMemoryError异常
 
-# JVM内存分配
+# 对象的引用**  
+   Java中的引用除了*强引用*（Person p = new Person())以外，还有其他三种引用，软引用，弱引用，虚（幽灵）引用。这四种引用的强弱关系，依次降低。  
+强引用  
+	在程序代码之中正常的类似于"Person p = new Person()"这类的引用；垃圾收集器不会回收掉被强引用的对象。
+软引用   
+	有用但非必须的对象，jdk中提供了SoftReference类来实现软引用；系统在发生内存溢出异常之前，会把只被软引用的对象进行回收。  
+	用途？可以做缓存
+虚引用  
+对被引用对象的生存时间不影响；无法通过虚引用来取得一个对象实例；为一个对象设置虚引用关联的唯一目的就是能在这个对象被收集器回收时收到一个系统通知；jdk提供PhantomReference类来实现虚引用。
 
-# JVM分析工具
+'''
+public class ReferenceTest {
+    public static void main(String[] args) {
+        System.out.println("==========强引用===========");
+        Person p = new Person();
+        System.gc();//
+        System.out.println(p);
+
+        System.out.println("=====软引用=====");
+        SoftReference<Person> sp = new SoftReference<Person>(new Person());
+        System.gc();
+        System.out.println(sp.get());
+
+        System.out.println("=====弱引用======");
+        WeakReference<Person> wp = new WeakReference<Person>(new Person());
+        System.gc();
+        System.out.println(wp.get());
+
+        System.out.println("======虚引用======");
+        ReferenceQueue<Person> referenceQueue = new ReferenceQueue<Person>();
+        Person person = new Person();
+        PhantomReference<Person> pp = new PhantomReference<Person>(person,referenceQueue);
+        person = null;
+        System.out.println(referenceQueue.poll());
+        System.gc();
+        System.out.println(pp.get());
+        try {
+            //gc后等1秒看结果
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println(referenceQueue.poll());
+        System.out.println("=============softReference对象的回收======================");
+        try {
+            List<HeapOOM.OOMObject> list;
+            list = new ArrayList<HeapOOM.OOMObject>();
+
+            while (true) {
+                list.add(new HeapOOM.OOMObject());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            System.out.println(sp.get());
+        }
+
+    }
+}
+
+
+class Person{
+    String name = "张三" ;
+
+    @Override
+    public String toString(){
+        return name;
+    }
+
+}'''
+
+# 对象可达性分析***
+   Java中用来判定对象是否被引用，就通过可达性分析来完成，早期最简单的方式就是通过引用计数器法来帮你判定对象是否被引用。  
+   
+## 引用计数法
+   引用计数算法基本思想：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。  
+   
+## 可达性分析
+   通过一系列的称为"GC Roots"的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链(Reference Chain),当一个对象GC Roots没有任何引用链相连（即不可达）时，则证明此对象是不可用的。  
+   
+## GC Roots对象：
+   虚拟机栈（栈帧中的本地变量表）中引用的对象。  
+   方法区中类静态属性引用的对象。
+   方法区中常量引用的对象。  
+   本地方法栈中JNI(Java Native Interface即一般说的Native方法)引用的对象。  
+   
+# 对象的生死
+ ## 判定对象的生死，需要进行两次的标记。
+ 
+   当对象不可达的时候会被标记，此为第一次标记。
+
+
+
+
 
